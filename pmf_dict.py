@@ -25,15 +25,14 @@ class ProbabilisticMatrixFactorization():
 	    self.user_id.append(u)
 	    self.user_id.append(s)
 
-
         self.num_users = len(self.users)
         self.num_songs = len(self.songs)
         
         print (self.num_users, self.num_songs, self.latent_d)
         print self.ratings
 
-        self.users = np.random.random((self.num_users, self.latent_d))
-        self.songs = np.random.random((self.num_songs, self.latent_d))
+        self.users = pd.DataFrame(np.random.random((self.num_users, self.latent_d)), index=self.user_id)
+        self.songs = pd.DataFrame(np.random.random((self.num_songs, self.latent_d)), index=self.song_id)
 
         self.new_users = np.random.random((self.num_users, self.latent_d))
         self.new_songs = np.random.random((self.num_songs, self.latent_d))           
@@ -47,25 +46,32 @@ class ProbabilisticMatrixFactorization():
             
         sq_error = 0
         
-        for rating_tuple in self.ratings:
-            if len(rating_tuple) == 3:
-                (i, j, rating) = rating_tuple
-                weight = 1
-            elif len(rating_tuple) == 4:
-                (i, j, rating, weight) = rating_tuple
+        for key in self.counts:
+	    i, j = key
+	    value = self.counts[key]
+
+	    if len(value) == 1:
+		rating = value
+		weight = 1
+
+            elif len(value) == 2:
+		rating, weight = value
             
-            r_hat = np.sum(users[i] * songs[j])
+            r_hat = np.dot(users.ix[i,:], songs.ix[j,:])
 
             sq_error += weight * (rating - r_hat)**2
 
         L2_norm = 0
-        for i in range(self.num_users):
-            for d in range(self.latent_d):
-                L2_norm += users[i, d]**2
+	for i,j  
 
-        for i in range(self.num_songs):
+
+        for i in xrange(self.num_users):
             for d in range(self.latent_d):
-                L2_norm += songs[i, d]**2
+                L2_norm += users.ix[i,d]**2
+
+        for j in xrange(self.num_songs):
+            for d in range(self.latent_d):
+                L2_norm += songs.ix[j, d]**2
 
         return -sq_error - self.regularization_strength * L2_norm
         

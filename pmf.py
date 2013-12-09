@@ -248,6 +248,7 @@ if __name__ == "__main__":
         print "L=", lik
         pass
     
+    '''
     plt.figure()
     plt.plot(liks)
     plt.xlabel("Iteration")
@@ -256,6 +257,7 @@ if __name__ == "__main__":
     plot_latent_vectors(pmf.users, pmf.items)
     plot_predicted_ratings(pmf.users, pmf.items)
     plt.show()
-
+    '''
+    pickle.dump(open('liks.pkl', 'wb'))
     pmf.print_latent_vectors()
     pmf.save_latent_vectors("models/")
