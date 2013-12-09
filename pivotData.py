@@ -14,11 +14,10 @@ def main(root_dir, dict_file):
 	for file_name in files:
 	    file_path = root + '/' + file_name
 	    print file_path
-	    f = open(file_path, 'rb')
-	
-	    for line in f:
-		uid, songid, platform, count= line.split('\x01')
-		data_dict[(uid,songid)] += int(count)
+	    with open(file_path, 'rb') as f:
+		for line in f:
+		    uid, songid, platform, count= line.split('\x01')
+		    data_dict[(uid,songid)] += int(count)
 
 	    pickle.dump(data_dict, open(dict_file, 'wb'))
 
