@@ -62,15 +62,13 @@ class ProbabilisticMatrixFactorization():
             sq_error += weight * (rating - r_hat)**2
 
         L2_norm = 0
-	for i,j  
-
 
         for i in xrange(self.num_users):
-            for d in range(self.latent_d):
+            for d in xrange(self.latent_d):
                 L2_norm += users.ix[i,d]**2
 
         for j in xrange(self.num_songs):
-            for d in range(self.latent_d):
+            for d in xrange(self.latent_d):
                 L2_norm += songs.ix[j, d]**2
 
         return -sq_error - self.regularization_strength * L2_norm

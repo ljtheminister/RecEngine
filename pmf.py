@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 
 import numpy
-import pickle
+import cPickle as pickle
 
 class ProbabilisticMatrixFactorization():
 
@@ -258,6 +258,6 @@ if __name__ == "__main__":
     plot_predicted_ratings(pmf.users, pmf.items)
     plt.show()
     '''
-    pickle.dump(open('liks.pkl', 'wb'))
+    pickle.dump(liks, open('liks.pkl', 'wb'))
     pmf.print_latent_vectors()
     pmf.save_latent_vectors("models/")
