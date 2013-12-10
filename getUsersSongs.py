@@ -18,7 +18,7 @@ def main(root_dir, user_file, song_file):
 		for line in f:
 		    uid, songid, _, _= line.split('\x01')
 		    users[uid] = 0
-		    songs[uid] = 0
+		    songs[songid] = 0
 			
 
     pickle.dump(users, open(user_file, 'wb'))
