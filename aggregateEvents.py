@@ -4,9 +4,23 @@ import cPickle as pickle
 
 from collections import defaultdict
 
-mat = defaultdict(int)
+'''
+import os
+root_dir = './'
+for root, dirs, files in os.walk(root_dir):
+    print 'root', root
+    print 'dirs', dirs
+    print 'files', files
+'''
 
+def aggregate_data1(root_dir, event, start_date=None, end_date=None):
+
+    mat = defaultdict(int)
+
+<<<<<<< HEAD
 def aggregate_data(root_dir, start_date=None, end_date=None, event=None):
+=======
+>>>>>>> 47e8b7fe600559d6f913000858bbffca89cfa4ae
     for root, dirs, files in os.walk(root_dir):
 	dirs = dirs_date_range(dirs, start_date, end_date)	
 	for file_name in files:
@@ -15,7 +29,8 @@ def aggregate_data(root_dir, start_date=None, end_date=None, event=None):
 	    with open(file_path, 'rb') as f:
 		for line in f:
 		    songid, uid, _, _ = line.split('\x01')
-			mat[(songid, uid)] += 1
+		    mat[(songid, uid)] += 1
+    return mat
 
 def dirs_date_range(dirs, start_date=None, end_date=None):
     if start_date is None and end_date is None:
@@ -28,17 +43,47 @@ def dirs_date_range(dirs, start_date=None, end_date=None):
 	dirs = [dir for dir in dirs if dir[3:] >= start_date and dir[3:] <= end_date]	
     return dirs
 
-def dirs_events(dirs, event):
-    if event is None:
-	return dirs
+def aggregate_data(root_dir, events_filter, start_date=None, end_date=None):
+    mat = defaultdict(int)
+    dates = dirs_date_range(os.listdir(root_dir))
+    for date in dates:
+	date_path = root_dir + '/' + date
+	events = os.listdir(date_path)
+	events = set(events).intersection(set(events_filter))
+	for event in events:
+	    event_path = date_path + '/' + event
+	    filenames = os.listdir(event_path)
+	    for filename in filenames:
+		file_path = event_path + '/' + filename
+		print file_path
+		with open(file_path, 'rb') as f:
+		    for line in f:
+			songid, uid, count = line.split('\x01')
+			mat[(songid, uid)] += int(count)
+    return mat    
+
+def user_songids(mat):
+    user_set = list()
+    song_set = list()
+    for key in mat.keys():
+	user, songid = key
+	user_set.append(user)
+	song_set.append(songid)
+
+    user_set = set(user_set)
+    song_set = set(songid_set)
+    return user_set, song_set
+
+def make_binary(mat):
+    for key in mat.keys():
+	mat[key] = 1
+    return mat
+
+
 
 
 def main():
-
-
-for root, dirs, files in os.walk('./'):
-    print 'root: ', root
-    print 'dirs: ', dirs
-    print 'files: ', files
-    dirs = [d for d in dirs if d > '.git']
-
+    root_dir = '../songid_uid_event_english'
+    event = ['ev=sidebar%3Aadd%3Aqueue']
+    mat = aggregate_data(root_dir, event)
+    pickle.dump(mat, open('AddQ_mat.p', 'wb'))
