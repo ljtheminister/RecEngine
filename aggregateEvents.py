@@ -6,7 +6,7 @@ from collections import defaultdict
 
 mat = defaultdict(int)
 
-def aggregate_data(root_dir, start_date=None, end_date=None):
+def aggregate_data(root_dir, start_date=None, end_date=None, event=None):
     for root, dirs, files in os.walk(root_dir):
 	dirs = dirs_date_range(dirs, start_date, end_date)	
 	for file_name in files:
@@ -28,5 +28,17 @@ def dirs_date_range(dirs, start_date=None, end_date=None):
 	dirs = [dir for dir in dirs if dir[3:] >= start_date and dir[3:] <= end_date]	
     return dirs
 
+def dirs_events(dirs, event):
+    if event is None:
+	return dirs
+
+
 def main():
+
+
+for root, dirs, files in os.walk('./'):
+    print 'root: ', root
+    print 'dirs: ', dirs
+    print 'files: ', files
+    dirs = [d for d in dirs if d > '.git']
 
