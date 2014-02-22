@@ -8,7 +8,7 @@ def load_pickled_file(filename):
     return data
 
 
-filename = 'AddQ_mat_binary.p'
+filename = './data/AddQ_mat_binary.p'
 data = load_pickled_file(filename)
 
 users = []
