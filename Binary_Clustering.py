@@ -29,5 +29,8 @@ mat = np.zeros((N,M))
 mat = pd.DataFrame(mat)
 mat.index = users
 mat.columns = songs
+
+for song, user in data.keys():
+    mat.ix[user, song] = 1
 mat.save('mat.pd')
 
