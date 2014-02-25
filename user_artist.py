@@ -52,7 +52,7 @@ base_cmd = 'mysql -h %s -u %s -p%s %s -e '%(db_host, db_user, db_pwd, db)
 base_query = "SELECT singers from %s where pid='%s'"
 
 # aggregating data
-for song, user in data.keys()[:10]:
+for song, user in data.keys():
     query = '%s"%s"'%(base_cmd, base_query%(table_name, song))
     artist = query_metadata(query)
     if artist:
