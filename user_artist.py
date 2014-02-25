@@ -53,11 +53,12 @@ base_query = "SELECT singers from %s where pid='%s'"
 
 # aggregating data
 for song, user in data.keys()[:10]:
-    query = base_cmd + base_query%(table_name, song)
+    query = '%s"%s"'%(base_cmd, base_query%(table_name, song))
     artist = query_metadata(query)
     if artist:
         user_artist[(user, artist)] = 1
         artist_set.update(artist)
+    print artist
 
 '''
 #saving the data
