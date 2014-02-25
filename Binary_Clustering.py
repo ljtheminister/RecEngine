@@ -8,7 +8,7 @@ def load_pickled_file(filename):
     return data
 
 
-filename = 'AddQ_mat_binary.p'
+filename = './data/AddQ_mat_binary.p'
 data = load_pickled_file(filename)
 
 users = []
@@ -29,5 +29,8 @@ mat = np.zeros((N,M))
 mat = pd.DataFrame(mat)
 mat.index = users
 mat.columns = songs
+
+for song, user in data.keys():
+    mat.ix[user, song] = 1
 mat.save('mat.pd')
 
